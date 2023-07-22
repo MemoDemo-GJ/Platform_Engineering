@@ -70,16 +70,27 @@ class MySQLConnector:
         except mysql.connector.Error as e:
             print("Error deleting data:", e)
 
-    def auto_create_query(self, table, data):
+    def auto_create_insert(self, table, data):
         # Assuming data is a dictionary with key-value pairs for columns and values
         try:
-            placeholders = ', '.join(['%s'] * len(data))
+            if not data:
+                return "", []
             columns = ', '.join(data.keys())
-            query = f"INSERT INTO {table} ({columns}) VALUES ({placeholders});"
-            return query
+            placeholders = ', '.join(['%s'] * len(data))
+            query = f"INSERT INTO {table} ({columns}) VALUES ({placeholders})"
+            query_values = tuple(data.values())
+            return query, query_values
         except Exception as e:
-            print("Error auto-creating query:", e)
-            return ""
+            print("Error auto-creating insert query:", e)
+            return "", []
+
+    def execute_insert(self, query, values):
+        try:
+            self.cursor.execute(query, values)
+            self.connection.commit()
+            print("Insert executed successfully!")
+        except mysql.connector.Error as e:
+            print("Error executing insert:", e)
 
     def auto_create_bulk_insert_query(self, table, data_list):
         # Assuming data_list is a list of dictionaries with key-value pairs for columns and values
@@ -89,17 +100,23 @@ class MySQLConnector:
             columns = ', '.join(data_list[0].keys())
             placeholders = ', '.join(['%s'] * len(data_list[0]))
             query = f"INSERT INTO {table} ({columns}) VALUES ({placeholders})"
-            query_values = ', '.join(self.cursor.mogrify("(%s)" % ', '.join(['%s'] * len(data)), tuple(item.values())).decode('utf-8') for item in data_list)
-            query += f" VALUES {query_values};"
-            return query
+            query_values = [tuple(item.values()) for item in data_list]
+            return query, query_values
         except Exception as e:
             print("Error auto-creating bulk insert query:", e)
-            return ""
+            return "", []
+
+    def execute_bulk_insert(self, query, values):
+        try:
+            self.cursor.executemany(query, values)
+            self.connection.commit()
+            print("Bulk insert executed successfully!")
+        except mysql.connector.Error as e:
+            print("Error executing bulk insert:", e)
 
     def run_procedure(self, procedure_name, args=None):
         try:
             if args:
-                args_str = ', '.join(['%s'] * len(args))
                 self.cursor.callproc(procedure_name, args)
             else:
                 self.cursor.callproc(procedure_name)

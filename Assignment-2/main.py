@@ -1,10 +1,10 @@
 from db_connector import MySQLConnector
 
 # Replace these values with your database credentials
-host = "your_host"
-user = "your_username"
-password = "your_password"
-database = "your_database_name"
+host = "localhost"
+user = "root"
+password = ""
+database = "sample_db"
 
 # Create an instance of the MySQLConnector class
 connector = MySQLConnector(host, user, password, database)
@@ -31,23 +31,24 @@ print(result)
 condition_to_delete = "name = 'John Doe'"
 connector.delete("users", condition_to_delete)
 
-# Example: Auto-create query for insert
-data_to_auto_create = {"name": "Alice", "email": "alice@example.com", "age": 28}
-insert_query = connector.auto_create_query("users", data_to_auto_create)
-print(insert_query)
+# Auto create insert query
+data_to_auto_create_insert = {"name": "Alice", "email": "alice@example.com", "age": 30}
+insert_query, insert_values = connector.auto_create_insert("users", data_to_auto_create_insert)
+connector.execute_insert(insert_query, insert_values)
 
 # Example: Auto-create bulk insert query
 data_list_to_auto_create_bulk = [
     {"name": "Bob", "email": "bob@example.com", "age": 25},
     {"name": "Eve", "email": "eve@example.com", "age": 23}
 ]
-bulk_insert_query = connector.auto_create_bulk_insert_query("users", data_list_to_auto_create_bulk)
-print(bulk_insert_query)
+bulk_insert_query, bulk_insert_values = connector.auto_create_bulk_insert_query("users", data_list_to_auto_create_bulk)
+connector.execute_bulk_insert(bulk_insert_query, bulk_insert_values)
 
-# Example: Run a stored procedure
-procedure_name_to_run = "sp_update_age"
-args_to_run = (30,)
-connector.run_procedure(procedure_name_to_run, args_to_run)
+# Example: Call the procedure to update the email address for user with id 1
+procedure_name_to_run = "sp_update_email"
+user_name_to_update = "Eve"
+new_email = "new_email@example.com"
+connector.run_procedure(procedure_name_to_run, (user_name_to_update, new_email))
 
 # Disconnect from the database
 connector.disconnect()
