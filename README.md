@@ -2,7 +2,15 @@
 
 ## Introduction
 
-Hello everyone! I am excited to submit my work for the Platform Engineering Internship Program at Pentafox. In this program, I have been exploring the fascinating world of cloud computing and infrastructure management. I had the opportunity to gain hands-on experience with leading cloud platforms like AWS, GCP, and Azure. This README serves as an overview of my journey, the assignments I have completed, and the valuable skills I have acquired throughout this internship.
+Hello everyone,
+
+I am thrilled to introduce myself as a participant in the "Platform Engineering" internship program at Pentafox. My name is V K Maniish Raja, and I am extremely excited to embark on this journey of learning and growth with such a dynamic and innovative organization.
+
+I am currently pursuing my studies in B.Tech IT at Madras Institute of Technology [MIT], Chennai, India. As a passionate individual eager to explore the world of cloud computing and infrastructure management, I find myself continuously drawn to the possibilities that modern technologies offer in transforming the way we build, deploy, and manage applications.
+
+During this internship, my primary focus will be on understanding cloud computing and gaining hands-on experience with platforms like AWS, GCP, or Azure. I am particularly enthusiastic about the prospect of working with cutting-edge technologies and exploring how cloud services can enable scalable and efficient solutions for real-world challenges.
+
+In this repository, I will be sharing my assignments, projects, and learnings related to cloud engineering and database connectivity using Python. Each submission will reflect my commitment to producing high-quality work and exploring innovative approaches to problem-solving.
 
 ## Table of Contents
 
